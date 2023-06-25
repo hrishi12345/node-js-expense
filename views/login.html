@@ -12,7 +12,9 @@
         <input type="email" name="email" required />
         <input type="password" name="password" required />
         <button>Login</button>
+        
     </form>
+    <button onclick="forgotPassword(event)">Forgot password</button>
     <a href="http://localhost:3000/user/signup">New User - Signup Now</a>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -37,7 +39,9 @@
         document.body.innerHTML += `<div style="color:red;">${err.message} <div>`;
     })
 }
-
+const forgotPassword=()=>{
+    window.location.href = "http://localhost:3000/user/forgotPassword"
+}
 
     </script>
 </body>
