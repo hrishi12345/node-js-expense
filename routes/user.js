@@ -13,7 +13,7 @@ router.get('/signup', (req, res)=> {
     res.sendFile('login.html', { root: './views' });
   });
 
-
+  router.get('/download', authenticatemiddleware.authenticate, expenseController.downloadExpenses)
 router.post('/signup', userController.signup);
 router.post('/login', userController.login)
 
