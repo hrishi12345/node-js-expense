@@ -1,4 +1,4 @@
-const Expense = require('../models/expenses');
+const Expense = require('../models/expense');
 const { BlobServiceClient } = require('@azure/storage-blob');
 const { v1: uuidv1} = require('uuid');
 
@@ -11,15 +11,21 @@ const addexpense = (req, res) => {
     })
 }
 
-const getexpenses = (req, res)=> {
+const getexpenses = (req, res) => {
+    const { page, limit } = req.query; // Extract page and limit from query parameters
+    const offset = (page - 1) * limit;
 
-    req.user.getExpenses().then(expenses => {
-        return res.status(200).json({expenses, success: true})
-    })
-    .catch(err => {
-        return res.status(402).json({ error: err, success: false})
-    })
-}
+    req.user.getExpenses({ offset, limit }) // Apply pagination to the query
+        .then(({ rows: expenses, count }) => {
+            const totalPages = Math.ceil(count / limit);
+            return res.status(200).json({ expenses, totalPages, success: true });
+        })
+        .catch(err => {
+            return res.status(402).json({ error: err, success: false });
+        });
+};
+
+
 
 const deleteexpense = (req, res) => {
     const expenseid = req.params.expenseid;
